@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["customer", "admin"]
     },
+    image: {
+        type: String,
+        default: "../Image.png"
+    },
+    
     addresses: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Address",
