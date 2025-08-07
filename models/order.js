@@ -19,6 +19,10 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true
     },
+    items: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item"
+    }]
   },
   {
     timestamps: true
