@@ -17,7 +17,11 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["customer", "admin"]
-    }
+    },
+    addresses: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    }]
   },
   {
     timestamps: true
