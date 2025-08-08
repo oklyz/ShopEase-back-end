@@ -10,6 +10,7 @@ router.post(
 )
 
 router.get("/", iteamContorller.GetItems)
+router.get("/:itemId", iteamContorller.GetOneItem)
 
 router.put("/update/:itemId", 
   middleware.stripToken,
