@@ -59,7 +59,47 @@ const Login = async (req, res) => {
   }
 }
 
+const user_info_get = async (req, res) => {
+  try {
+    const user_info = await User.findById(req.params.id)
+    if (!user_info) {
+      return res.status(404).send({ status: 'Error', msg: 'User not found' })
+    }
+    res.status(200).send(user_info)
+  } catch (error) {
+    console.log(error)
+    res.status(401).send({ status: 'Error', msg: 'An error has occurred!' })
+  }
+}
+const user_update_put = async (req, res) => {
+  try {
+    const { name, email, image, addresses } = req.body
+
+    const updateData = { name, email, image, addresses }
+
+    const user_update = await User.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+
+    if (!user_update) {
+      return res.status(404).send({ status: 'Error', msg: 'User not found' })
+    }
+
+    res.status(200).send(user_update)
+  } catch (error) {
+    res
+      .status(400)
+      .send({ status: 'Error', msg: 'Update failed', error: error.message })
+  }
+}
 module.exports = {
   Register,
-  Login
+  Login,
+  user_info_get,
+  user_update_put
 }
