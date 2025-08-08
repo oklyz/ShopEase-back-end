@@ -24,10 +24,10 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, "public")))
 
 //Require Routes
-
+const addressRouter = require("./routes/address")
 
 // use Routes
-
+app.use("/address", addressRouter)
 
 // Listener
 app.listen(port, () => {
