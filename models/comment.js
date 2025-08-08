@@ -8,14 +8,16 @@ const commentSchema = new mongoose.Schema(
     },
     rate: {
       type: Number,
+      min: 0,
+      max: 5,
       required: true
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
+    userId: {
+      type: String,
       required: true
     },
-    item: {
-      type: mongoose.Schema.Types.ObjectId,
+    itemId: {
+      type: String,
       required: true
     }
   }

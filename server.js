@@ -26,10 +26,12 @@ app.use(express.static(path.join(__dirname, "public")))
 //Require Routes
 const addressRouter = require("./routes/address")
 const itemRouter = require("./routes/item")
+const commentRouter = require("./routes/comment")
 
 // use Routes
 app.use("/address", addressRouter)
 app.use("/item", itemRouter)
+app.use("/comment", commentRouter)
 
 // Listener
 app.listen(port, () => {
