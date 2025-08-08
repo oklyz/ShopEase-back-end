@@ -1,5 +1,6 @@
 const Item = require("../models/item")
 const middleware = require("../middlewares/index")
+const { findOne } = require("../models/address")
 
 const CreateItems = async (req, res) => {
   try {
@@ -23,6 +24,17 @@ const GetItems = async (req, res) => {
   } catch (error) {
     console.log(error)
     res.status(400).send("An error has occured while getting items")
+  }
+}
+
+const GetOneItem = async (req, res) => {
+  try {
+    
+    const item = await Item.findById(req.params.itemId)
+    res.status(200).send(item)
+  } catch (error) {
+    console.log(error)
+    res.status(400).send("An error has occured while getting specific item")
   }
 }
 
@@ -59,5 +71,6 @@ module.exports = {
   CreateItems,
   UpdateItem,
   DeleteItem,
-  GetItems
+  GetItems,
+  GetOneItem
 }
