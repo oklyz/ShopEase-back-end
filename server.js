@@ -26,13 +26,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 //Require Routes
 
 const AuthRouter = require('./routes/auth')
-// const UserRouter = require('./routes/user')
+const UserRouter = require('./routes/user')
 // const itemRouter = require('./routes/item')
 
 // use Routes
 
 app.use('/auth', AuthRouter)
-// app.use('/user', UserRouter)
+app.use('/user', UserRouter)
 // app.use('/item', itemRouter)
 // app.use('/order', OrderRouter)
 // app.use('/comment', CommentRouter)
