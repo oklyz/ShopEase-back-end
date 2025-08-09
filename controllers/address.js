@@ -23,31 +23,58 @@ const createAddress = async (req, res) => {
 }
 
 const UpdateAddress = async (req, res) => {
-  const { userId } = req.body
-  const address = await Address.findById(req.params.addressId)
-  if (address.userId !== userId) {
-    return res.status(401).send('Unauthorized')
+  res.status(404).send({ status: 'Error', msg: 'in side the functon!' })
+  try {
+    const { userId } = { ...req.body }
+    const address = await Address.findById(req.params.addressId)
+    if (!address) {
+      res.status(404).send({ status: 'Error', msg: 'Address not found!' })
+    }
+    if (address.userId.toString() !== userId) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    const UpdateAddress = await Address.findByIdAndUpdate(
+      req.params.addressId,
+      req.body,
+      { new: true }
+    )
+
+    res
+      .status(200)
+      .send({ status: 'User address info Updated!', UpdateAddress })
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred when updata address!',
+      error: error.message
+    })
   }
-
-  const UpdateAddress = await Address.findByIdAndUpdate(
-    req.params.addressId,
-    { ...req.body },
-    { new: true }
-  )
-
-  res.status(200).send({ status: 'User address info Updated!', UpdateAddress })
 }
 
 const DeleteAddress = async (req, res) => {
-  const address = await Address.findById(req.params.addressId)
-
-  // if (address.userId.toString() !== res.locals.payload.userId) {
-  //   return res
-  //     .status(401)
-  //     .send("You don't have the privilieges to delete address")
-  // }
-  await Address.findByIdAndDelete(req.params.addressId)
-  res.status(200).send('Address Delete!')
+  try {
+    const { userId } = req.body
+    const address = await Address.findById(req.params.addressId)
+    if (!address) {
+      return res
+        .status(404)
+        .send({ status: 'Error', msg: 'Address not found!' })
+    }
+    if (address.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .send("You don't have the privilieges to delete address")
+    }
+    await Address.findByIdAndDelete(req.params.addressId)
+    res.status(200).send('Address Delete!')
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred!',
+      error: error.message
+    })
+  }
 }
 
 module.exports = {
