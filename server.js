@@ -29,12 +29,13 @@ const AuthRouter = require('./routes/auth')
 const addressRouter = require('./routes/address')
 const itemRouter = require('./routes/item')
 const commentRouter = require('./routes/comment')
+const OrderRouter = require('./routes/order')
 
 // use Routes
 
 app.use('/auth', AuthRouter)
 
-// app.use('/order', OrderRouter)
+app.use('/order', OrderRouter)
 app.use('/address', addressRouter)
 app.use('/item', itemRouter)
 app.use('/comment', commentRouter)

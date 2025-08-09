@@ -27,7 +27,13 @@ const Register = async (req, res) => {
       res.send(user)
     }
   } catch (error) {
-    throw error
+    res
+      .status(401)
+      .send({
+        status: 'Error',
+        msg: 'An error has occurred!',
+        error: error.message
+      })
   }
 }
 
@@ -55,7 +61,13 @@ const Login = async (req, res) => {
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {
     console.log(error)
-    res.status(401).send({ status: 'Error', msg: 'An error has occurred!' })
+    res
+      .status(401)
+      .send({
+        status: 'Error',
+        msg: 'An error has occurred!',
+        error: error.message
+      })
   }
 }
 
