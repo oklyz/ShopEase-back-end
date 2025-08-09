@@ -39,8 +39,6 @@ const UpdateAddress = async (req, res) => {
 
 const DeleteAddress = async (req, res) => {
   const address = await Address.findById(req.params.addressId)
-  console.log(address.userId)
-  console.log(res.locals.payload.id)
   if (address.userId !== res.locals.payload.id) {
     return res
       .status(401)
