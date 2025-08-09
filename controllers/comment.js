@@ -21,11 +21,11 @@ const createComment = async (req, res) => {
 
 const updateComment = async (req, res) => {
   try {
-    const { description, rate } = req.body
+    const { description, rate, userId } = req.body
 
     const comment = await Comment.findById(req.params.commentId)
 
-    if (res.locals.payload.userId === comment.userId) {
+    if (userId === comment.userId) {
       const comment = await Comment.findByIdAndUpdate(
         req.params.commentId,
         { description, rate },
@@ -53,13 +53,11 @@ const deleteComment = async (req, res) => {
     }
     res.status(401).send("You don't have the priviliges to delete this comment")
   } catch (error) {
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'an Error has ocurred while deleting comment',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'an Error has ocurred while deleting comment',
+      error: error.message
+    })
   }
 }
 
