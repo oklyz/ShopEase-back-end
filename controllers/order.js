@@ -27,6 +27,34 @@ const create_order_post = async (req, res) => {
   }
 }
 
+const get_order_byID_post = async (req, res) => {
+  try {
+    const orderInfo = await Order.findById(req.params.orderid)
+      .populate('user', 'name email')
+      .populate('items', 'name price')
+
+    if (!orderInfo) {
+      return res.status(404).send({
+        status: 'Error',
+        msg: 'Order not found'
+      })
+    }
+
+    res.status(201).send({
+      status: 'Order find successfully!',
+      orderInfo
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(401).send({
+      status: 'Error',
+      msg: 'an Error has ocurred while finding order',
+      error: error.message
+    })
+  }
+}
+
 module.exports = {
-  create_order_post
+  create_order_post,
+  get_order_byID_post
 }
