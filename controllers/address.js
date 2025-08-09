@@ -3,32 +3,41 @@ const middleware = require('../middlewares/index')
 const User = require('../models/user')
 
 const createAddress = async (req, res) => {
-  const { country, city, block, street, building, phone, userId } = req.body
+  try {
+    const { country, city, block, street, building, phone, userId } = req.body
 
-  const address = await Address.create({
-    country,
-    city,
-    block,
-    street,
-    building,
-    phone,
-    userId
-  })
+    const address = await Address.create({
+      country,
+      city,
+      block,
+      street,
+      building,
+      phone,
+      userId
+    })
 
-  await User.findByIdAndUpdate(address.userId, {
-    $push: { addresses: address }
-  })
+    await User.findByIdAndUpdate(address.userId, {
+      $push: { addresses: address }
+    })
 
-  res.status(200).send(address)
+    res.status(200).send(address)
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred when create address!',
+      error: error.message
+    })
+  }
 }
 
 const UpdateAddress = async (req, res) => {
-  res.status(404).send({ status: 'Error', msg: 'in side the functon!' })
   try {
-    const { userId } = { ...req.body }
+    const { userId } = req.body
     const address = await Address.findById(req.params.addressId)
     if (!address) {
-      res.status(404).send({ status: 'Error', msg: 'Address not found!' })
+      return res
+        .status(404)
+        .send({ status: 'Error', msg: 'Address not found!' })
     }
     if (address.userId.toString() !== userId) {
       return res.status(401).send('Unauthorized')
@@ -40,7 +49,7 @@ const UpdateAddress = async (req, res) => {
       { new: true }
     )
 
-    res
+    return res
       .status(200)
       .send({ status: 'User address info Updated!', UpdateAddress })
   } catch (error) {
