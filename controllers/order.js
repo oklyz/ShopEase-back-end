@@ -1,5 +1,4 @@
 const Order = require('../models/order')
-const middleware = require('../middlewares')
 
 const create_order_post = async (req, res) => {
   try {

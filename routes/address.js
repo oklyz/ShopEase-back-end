@@ -1,23 +1,23 @@
-const router = require("express").Router()
-const middleware = require("../middlewares/index")
-const addressController = require("../controllers/address")
+const router = require('express').Router()
+const middleware = require('../middlewares')
+const addressController = require('../controllers/address')
 
 router.post(
-  "/new",
+  '/new',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.createAddress
 )
 
 router.put(
-  "/update/:addressId",
+  '/update/:addressId',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.UpdateAddress
 )
 
 router.delete(
-  "/delete/:addressId",
+  '/delete/:addressId',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.DeleteAddress

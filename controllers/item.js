@@ -1,5 +1,4 @@
 const Item = require('../models/item')
-const middleware = require('../middlewares/index')
 const { findOne } = require('../models/address')
 
 const CreateItems = async (req, res) => {
@@ -11,13 +10,11 @@ const CreateItems = async (req, res) => {
     res.status(401).send("You can't create item you have to be admin")
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occured while create Item',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occured while create Item',
+      error: error.message
+    })
   }
 }
 
@@ -27,13 +24,11 @@ const GetItems = async (req, res) => {
     res.status(200).send(items)
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occured while getting items',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occured while getting items',
+      error: error.message
+    })
   }
 }
 
@@ -43,13 +38,11 @@ const GetOneItem = async (req, res) => {
     res.status(200).send(item)
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occured while getting specific item',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occured while getting specific item',
+      error: error.message
+    })
   }
 }
 
@@ -66,13 +59,11 @@ const UpdateItem = async (req, res) => {
     res.status(401).send("You can't Update item you have to be admin")
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occured while Updating Item',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occured while Updating Item',
+      error: error.message
+    })
   }
 }
 
@@ -86,13 +77,11 @@ const DeleteItem = async (req, res) => {
     res.status(401).send("You can't delete item you have to be admin")
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occured while Deleting Item',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occured while Deleting Item',
+      error: error.message
+    })
   }
 }
 

@@ -1,5 +1,4 @@
 const User = require('../models/user')
-const Addresses = require('../models/address')
 const middleware = require('../middlewares')
 
 const Register = async (req, res) => {
@@ -15,7 +14,6 @@ const Register = async (req, res) => {
         .status(400)
         .send('A user with that email has already been registered!')
     } else {
-     
       // Creates a new user
       const user = await User.create({
         name,
