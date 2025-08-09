@@ -23,9 +23,8 @@ const createAddress = async (req, res) => {
 }
 
 const UpdateAddress = async (req, res) => {
-  const { userId } = req.body
   const address = await Address.findById(req.params.addressId)
-  if (address.userId !== userId) {
+  if (address.userId !== res.locals.payload.id) {
     return res.status(401).send('Unauthorized')
   }
 
@@ -40,12 +39,13 @@ const UpdateAddress = async (req, res) => {
 
 const DeleteAddress = async (req, res) => {
   const address = await Address.findById(req.params.addressId)
-
-  // if (address.userId.toString() !== res.locals.payload.userId) {
-  //   return res
-  //     .status(401)
-  //     .send("You don't have the privilieges to delete address")
-  // }
+  console.log(address.userId)
+  console.log(res.locals.payload.id)
+  if (address.userId !== res.locals.payload.id) {
+    return res
+      .status(401)
+      .send("You don't have the privilieges to delete address")
+  }
   await Address.findByIdAndDelete(req.params.addressId)
   res.status(200).send('Address Delete!')
 }
