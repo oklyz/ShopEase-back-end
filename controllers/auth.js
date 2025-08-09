@@ -4,7 +4,7 @@ const middleware = require('../middlewares')
 const Register = async (req, res) => {
   try {
     // Extracts the necessary fields from the request body
-    const { email, image, password, name, role, addresses } = req.body
+    const { email, image, password, name, role } = req.body
     // Hashes the provided password
     let passwordDigest = await middleware.hashPassword(password)
     // Checks if there has already been a user registered with that email
@@ -67,15 +67,18 @@ const user_info_get = async (req, res) => {
     }
     res.status(200).send(user_info)
   } catch (error) {
-    console.log(error)
-    res.status(401).send({ status: 'Error', msg: 'An error has occurred!' })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred!',
+      error: error.message
+    })
   }
 }
 const user_update_put = async (req, res) => {
   try {
-    const { name, email, image, addresses } = req.body
-
-    const updateData = { name, email, image, addresses }
+    const { name, email, image, addresses, password } = req.body
+    const passwordDigest = await middleware.hashPassword(password)
+    const updateData = { name, email, image, addresses, passwordDigest }
 
     const user_update = await User.findByIdAndUpdate(
       req.params.id,
