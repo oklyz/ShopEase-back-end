@@ -2,12 +2,12 @@ const Order = require('../models/order')
 
 const create_order_post = async (req, res) => {
   try {
-    const { userId, itemIds, payment_method, quantity_ordered } = req.body
+    const { userId, itemIds, paymentMethod, quantityOrder } = req.body
     // Create the order
     const order = await Order.create({
       date: new Date(), // Current date/time
-      payment_method,
-      quantity_ordered,
+      paymentMethod,
+      quantityOrder,
       user: userId, // Reference to user
       items: itemIds // Array of references to items
     })
