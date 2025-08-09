@@ -45,9 +45,10 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
+    const { userId } = req.body
     const comment = await Comment.findById(req.params.commentId)
 
-    if (res.locals.payload.userId === comment.userId) {
+    if (userId === comment.userId) {
       await Comment.findByIdAndDelete(req.params.commentId)
       res.status(200).send('comment delete!')
     }
