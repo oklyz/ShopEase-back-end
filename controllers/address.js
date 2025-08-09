@@ -3,49 +3,87 @@ const middleware = require('../middlewares/index')
 const User = require('../models/user')
 
 const createAddress = async (req, res) => {
-  const { country, city, block, street, building, phone, userId } = req.body
+  try {
+    const { country, city, block, street, building, phone, userId } = req.body
 
-  const address = await Address.create({
-    country,
-    city,
-    block,
-    street,
-    building,
-    phone,
-    userId
-  })
+    const address = await Address.create({
+      country,
+      city,
+      block,
+      street,
+      building,
+      phone,
+      userId
+    })
 
-  await User.findByIdAndUpdate(address.userId, {
-    $push: { addresses: address }
-  })
+    await User.findByIdAndUpdate(address.userId, {
+      $push: { addresses: address }
+    })
 
-  res.status(200).send(address)
+    res.status(200).send(address)
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred when create address!',
+      error: error.message
+    })
+  }
 }
 
 const UpdateAddress = async (req, res) => {
-  const address = await Address.findById(req.params.addressId)
-  if (address.userId !== res.locals.payload.id) {
-    return res.status(401).send('Unauthorized')
+  try {
+    const { userId } = req.body
+    const address = await Address.findById(req.params.addressId)
+    if (!address) {
+      return res
+        .status(404)
+        .send({ status: 'Error', msg: 'Address not found!' })
+    }
+    if (address.userId.toString() !== userId) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    const UpdateAddress = await Address.findByIdAndUpdate(
+      req.params.addressId,
+      req.body,
+      { new: true }
+    )
+
+    return res
+      .status(200)
+      .send({ status: 'User address info Updated!', UpdateAddress })
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred when updata address!',
+      error: error.message
+    })
   }
-
-  const UpdateAddress = await Address.findByIdAndUpdate(
-    req.params.addressId,
-    { ...req.body },
-    { new: true }
-  )
-
-  res.status(200).send({ status: 'User address info Updated!', UpdateAddress })
 }
 
 const DeleteAddress = async (req, res) => {
-  const address = await Address.findById(req.params.addressId)
-  if (address.userId !== res.locals.payload.id) {
-    return res
-      .status(401)
-      .send("You don't have the privilieges to delete address")
+  try {
+    const { userId } = req.body
+    const address = await Address.findById(req.params.addressId)
+    if (!address) {
+      return res
+        .status(404)
+        .send({ status: 'Error', msg: 'Address not found!' })
+    }
+    if (address.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .send("You don't have the privilieges to delete address")
+    }
+    await Address.findByIdAndDelete(req.params.addressId)
+    res.status(200).send('Address Delete!')
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred!',
+      error: error.message
+    })
   }
-  await Address.findByIdAndDelete(req.params.addressId)
-  res.status(200).send('Address Delete!')
 }
 
 module.exports = {
