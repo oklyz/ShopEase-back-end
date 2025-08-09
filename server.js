@@ -1,37 +1,46 @@
 // imports
-const express = require("express")
-require("dotenv").config
+const express = require('express')
+require('dotenv').config
 const app = express()
-const path = require("path")
+const path = require('path')
 
 // Initailze app
 
 // Database Configuration
-const db = require("./config/db")
+const db = require('./config/db')
 
 // set Port Configuration
 const port = process.env.PORT ? process.env.PORT : 3001
 
 // Middlewares
-const logger = require("morgan")
-const cors = require("cors")
+const logger = require('morgan')
+const cors = require('cors')
 
 // use Middlewares
-app.use(logger())
 app.use(cors())
+app.use(logger())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, "public")))
+app.use(express.static(path.join(__dirname, 'public')))
 
 //Require Routes
-const addressRouter = require("./routes/address")
-const itemRouter = require("./routes/item")
-const commentRouter = require("./routes/comment")
+
+const AuthRouter = require('./routes/auth')
+const addressRouter = require('./routes/address')
+const itemRouter = require('./routes/item')
+const commentRouter = require('./routes/comment')
+const OrderRouter = require('./routes/order')
+const ContactRouter = require('./routes/contact')
 
 // use Routes
-app.use("/address", addressRouter)
-app.use("/item", itemRouter)
-app.use("/comment", commentRouter)
+
+app.use('/auth', AuthRouter)
+
+app.use('/order', OrderRouter)
+app.use('/address', addressRouter)
+app.use('/item', itemRouter)
+app.use('/comment', commentRouter)
+app.use('/contact', ContactRouter)
 
 // Listener
 app.listen(port, () => {

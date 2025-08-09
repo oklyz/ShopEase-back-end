@@ -1,24 +1,26 @@
-const router = require("express").Router()
-const middleware = require("../middlewares/index")
-const iteamContorller = require("../controllers/item")
+const router = require('express').Router()
+const middleware = require('../middlewares')
+const iteamContorller = require('../controllers/item')
 
 router.post(
-  "/new",
+  '/new',
   middleware.stripToken,
   middleware.verifyToken,
   iteamContorller.CreateItems
 )
 
-router.get("/", iteamContorller.GetItems)
-router.get("/:itemId", iteamContorller.GetOneItem)
+router.get('/', iteamContorller.GetItems)
+router.get('/:itemId', iteamContorller.GetOneItem)
 
-router.put("/update/:itemId", 
+router.put(
+  '/update/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
   iteamContorller.UpdateItem
 )
 
-router.delete("/delete/:itemId",
+router.delete(
+  '/delete/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
   iteamContorller.DeleteItem

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,29 +10,31 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    passwordDegist: {
+    passwordDigest: {
       type: String,
       required: true
     },
     role: {
       type: String,
-      enum: ["customer", "admin"]
+      enum: ['customer', 'admin']
     },
     image: {
-        type: String,
-        default: "../Image.png"
+      type: String,
+      default: '../Image.png'
     },
-    
-    addresses: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
-    }]
+
+    addresses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address'
+      }
+    ]
   },
   {
     timestamps: true
   }
 )
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User
