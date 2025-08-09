@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const addressSchema = new mongoose.Schema(
   {
@@ -25,17 +25,18 @@ const addressSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true
-    },
-    userId: {
-      type: String,
-      required: true
     }
+    // ,
+    // userId: {
+    //   type: String,
+    //   required: true
+    // }
   },
   {
     timestamps: true
   }
 )
 
-const Address = mongoose.model("Address", addressSchema)
+const Address = mongoose.model('Address', addressSchema)
 
 module.exports = Address

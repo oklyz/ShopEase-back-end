@@ -1,10 +1,11 @@
 const User = require('../models/user')
+const Addresses = require('../models/address')
 const middleware = require('../middlewares')
 
 const Register = async (req, res) => {
   try {
     // Extracts the necessary fields from the request body
-    const { email, image, password, name, role } = req.body
+    let { email, image, password, name, role } = req.body
     // Hashes the provided password
     let passwordDigest = await middleware.hashPassword(password)
     // Checks if there has already been a user registered with that email
@@ -14,26 +15,26 @@ const Register = async (req, res) => {
         .status(400)
         .send('A user with that email has already been registered!')
     } else {
+     
       // Creates a new user
       const user = await User.create({
         name,
         image,
         email,
         passwordDigest,
-        role,
-        addresses
+        role
       })
+
       // Sends the user as a response
+
       res.send(user)
     }
   } catch (error) {
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occurred!',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred!',
+      error: error.message
+    })
   }
 }
 
@@ -61,19 +62,17 @@ const Login = async (req, res) => {
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: 'Error',
-        msg: 'An error has occurred!',
-        error: error.message
-      })
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred!',
+      error: error.message
+    })
   }
 }
 
 const user_info_get = async (req, res) => {
   try {
-    const user_info = await User.findById(req.params.id)
+    const user_info = await User.findById(req.params.id).populate('addresses')
     if (!user_info) {
       return res.status(404).send({ status: 'Error', msg: 'User not found' })
     }
