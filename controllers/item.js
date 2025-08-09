@@ -3,7 +3,8 @@ const { findOne } = require('../models/address')
 
 const CreateItems = async (req, res) => {
   try {
-    if (res.locals.payload.role === 'admin') {
+    const { role } = req.body
+    if (role === 'admin') {
       const item = await Item.create({ ...req.body })
       return res.status(200).send({ status: 'Item created Successfully', item })
     }
@@ -48,7 +49,8 @@ const GetOneItem = async (req, res) => {
 
 const UpdateItem = async (req, res) => {
   try {
-    if (res.locals.payload.role === 'admin') {
+    const { role } = { ...req.body }
+    if (role === 'admin') {
       const item = await Item.findByIdAndUpdate(
         req.params.itemId,
         { ...req.body },
@@ -69,7 +71,8 @@ const UpdateItem = async (req, res) => {
 
 const DeleteItem = async (req, res) => {
   try {
-    if (res.locals.payload.role === 'admin') {
+    const { role } = { ...req.body }
+    if (role === 'admin') {
       await Item.findByIdAndDelete(req.params.itemId)
       res.status(200).send('Item delete!')
     }
