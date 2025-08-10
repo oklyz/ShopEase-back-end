@@ -6,23 +6,25 @@ const createAddress = async (req, res) => {
   try {
     const { country, city, block, street, building, phone, userId } = req.body
 
-    const address = await Address.create({
-      country,
-      city,
-      block,
-      street,
-      building,
-      phone,
-      userId
-    })
+    if (res.locals.payload.id === userId) {
+      const address = await Address.create({
+        country,
+        city,
+        block,
+        street,
+        building,
+        phone,
+        userId
+      })
+      await User.findByIdAndUpdate(address.userId, {
+        $push: { addresses: address }
+      })
+      res.status(201).send("Address Created!")
+    } 
+    res.status(400).send("faild to create address")
 
-    await User.findByIdAndUpdate(address.userId, {
-      $push: { addresses: address }
-    })
-
-    res.status(200).send(address)
   } catch (error) {
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'An error has occurred when create address!',
       error: error.message
@@ -32,14 +34,14 @@ const createAddress = async (req, res) => {
 
 const UpdateAddress = async (req, res) => {
   try {
-    const { userId } = req.body
+    
     const address = await Address.findById(req.params.addressId)
     if (!address) {
       return res
         .status(404)
         .send({ status: 'Error', msg: 'Address not found!' })
     }
-    if (address.userId.toString() !== userId) {
+    if (address.userId !== res.locals.payload.id) {
       return res.status(401).send('Unauthorized')
     }
 
@@ -63,14 +65,14 @@ const UpdateAddress = async (req, res) => {
 
 const DeleteAddress = async (req, res) => {
   try {
-    const { userId } = req.body
+    
     const address = await Address.findById(req.params.addressId)
     if (!address) {
       return res
         .status(404)
         .send({ status: 'Error', msg: 'Address not found!' })
     }
-    if (address.userId.toString() !== userId) {
+    if (address.userId !== res.locals.payload.id) {
       return res
         .status(403)
         .send("You don't have the privilieges to delete address")

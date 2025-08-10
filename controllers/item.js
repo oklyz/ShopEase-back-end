@@ -1,17 +1,15 @@
 const Item = require('../models/item')
-const { findOne } = require('../models/address')
 
 const CreateItems = async (req, res) => {
   try {
-    const { role } = req.body
-    if (role === 'admin') {
+    if (res.locals.payload.role === 'admin') {
       const item = await Item.create({ ...req.body })
-      return res.status(200).send({ status: 'Item created Successfully', item })
+      return res.status(201).send({ status: 'Item created Successfully', item })
     }
-    res.status(401).send("You can't create item you have to be admin")
+    res.status(401).send("You don't have the privileges to create item")
   } catch (error) {
     console.log(error)
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while create Item',
       error: error.message
@@ -49,8 +47,8 @@ const GetOneItem = async (req, res) => {
 
 const UpdateItem = async (req, res) => {
   try {
-    const { role } = { ...req.body }
-    if (role === 'admin') {
+    
+    if (res.locals.payload.role === 'admin') {
       const item = await Item.findByIdAndUpdate(
         req.params.itemId,
         { ...req.body },
@@ -61,7 +59,7 @@ const UpdateItem = async (req, res) => {
     res.status(401).send("You can't Update item you have to be admin")
   } catch (error) {
     console.log(error)
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while Updating Item',
       error: error.message
@@ -71,16 +69,15 @@ const UpdateItem = async (req, res) => {
 
 const DeleteItem = async (req, res) => {
   try {
-    const { role } = { ...req.body }
-    if (role === 'admin') {
+    
+    if (res.locals.payload.role === 'admin') {
       await Item.findByIdAndDelete(req.params.itemId)
       res.status(200).send('Item delete!')
     }
-
     res.status(401).send("You can't delete item you have to be admin")
   } catch (error) {
     console.log(error)
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while Deleting Item',
       error: error.message

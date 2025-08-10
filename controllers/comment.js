@@ -3,15 +3,18 @@ const Item = require('../models/item')
 
 const createComment = async (req, res) => {
   try {
-    const comment = await Comment.create({ ...req.body })
+    if (res.locals.payload.id === req.body.userId) {
+      const comment = await Comment.create({ ...req.body })
 
-    await Item.findByIdAndUpdate(comment.itemId, {
-      $push: { comments: comment }
-    })
-    res.status(200).send({ status: 'Comment created!', comment })
+      await Item.findByIdAndUpdate(comment.itemId, {
+        $push: { comments: comment }
+      })
+      res.status(201).send({ status: 'Comment created!', comment })
+    }
+    res.status(400).send("Faild to create comment")
   } catch (error) {
     console.log(error)
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while creating comment',
       error: error.message
@@ -21,11 +24,11 @@ const createComment = async (req, res) => {
 
 const updateComment = async (req, res) => {
   try {
-    const { description, rate, userId } = req.body
+    const { description, rate } = req.body
 
     const comment = await Comment.findById(req.params.commentId)
 
-    if (userId === comment.userId) {
+    if (res.locals.payload.id === comment.userId) {
       const comment = await Comment.findByIdAndUpdate(
         req.params.commentId,
         { description, rate },
@@ -35,7 +38,7 @@ const updateComment = async (req, res) => {
     }
     res.status(401).send("You don't have the priviliges to edit this comment")
   } catch (error) {
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while Updating comment',
       error: error.message
@@ -45,16 +48,15 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const { userId } = req.body
     const comment = await Comment.findById(req.params.commentId)
 
-    if (userId === comment.userId) {
+    if (res.locals.payload.id === comment.userId) {
       await Comment.findByIdAndDelete(req.params.commentId)
       res.status(200).send('comment delete!')
     }
     res.status(401).send("You don't have the priviliges to delete this comment")
   } catch (error) {
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while deleting comment',
       error: error.message

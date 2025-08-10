@@ -4,18 +4,20 @@ const create_order_post = async (req, res) => {
   try {
     const { userId, itemIds, paymentMethod, quantityOrder } = req.body
     // Create the order
-    const order = await Order.create({
-      date: new Date(), // Current date/time
-      paymentMethod,
-      quantityOrder,
-      user: userId, // Reference to user
-      items: itemIds // Array of references to items
-    })
+    if (res.locals.payload.id === userId) {
+      const order = await Order.create({
+        date: new Date(), // Current date/time
+        paymentMethod,
+        quantityOrder,
+        user: userId, // Reference to user
+        items: itemIds // Array of references to items
+      })
+      res.status(201).send({
+        status: 'Order created successfully!',
+        order
+      })
+    }
 
-    res.status(201).send({
-      status: 'Order created successfully!',
-      order
-    })
   } catch (error) {
     console.log(error)
     res.status(401).send({
@@ -39,13 +41,13 @@ const get_order_byID_post = async (req, res) => {
       })
     }
 
-    res.status(201).send({
+    res.status(200).send({
       status: 'Order find successfully!',
       orderInfo
     })
   } catch (error) {
     console.log(error)
-    res.status(401).send({
+    res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while finding order',
       error: error.message
