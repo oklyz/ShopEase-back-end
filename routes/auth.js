@@ -16,4 +16,11 @@ router.put(
   controller.user_update_put
 )
 
+router.get(
+  "/session",
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.CheckSession
+)
+
 module.exports = router
