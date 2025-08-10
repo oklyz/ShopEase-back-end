@@ -4,7 +4,8 @@ const middleware = require('../middlewares')
 const Register = async (req, res) => {
   try {
     // Extracts the necessary fields from the request body
-    let { email, image, password, name, role } = req.body
+    // let { email, image, password, name, role } = req.body
+    let { email, password, name } = req.body
     // Hashes the provided password
     let passwordDigest = await middleware.hashPassword(password)
     // Checks if there has already been a user registered with that email
@@ -15,12 +16,17 @@ const Register = async (req, res) => {
         .send('A user with that email has already been registered!')
     } else {
       // Creates a new user
+      // const user = await User.create({
+      //   name,
+      //   image,
+      //   email,
+      //   passwordDigest,
+      //   role
+      // })
       const user = await User.create({
         name,
-        image,
         email,
         passwordDigest,
-        role
       })
 
       // Sends the user as a response
@@ -110,9 +116,16 @@ const user_update_put = async (req, res) => {
       .send({ status: 'Error', msg: 'Update failed', error: error.message })
   }
 }
+
+const CheckSession = async (req, res) => {
+  const { payload } = res.locals
+  res.status(200).send(payload)
+}
+
 module.exports = {
   Register,
   Login,
   user_info_get,
-  user_update_put
+  user_update_put,
+  CheckSession
 }
