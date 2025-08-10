@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const User = require("../models/user")
 const middleware = require('../middlewares')
 
 const Register = async (req, res) => {
@@ -51,7 +51,8 @@ const Login = async (req, res) => {
     if (matched) {
       let payload = {
         id: user._id,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
       // Creates our JWT and packages it with our payload to send as a response
       let token = middleware.createToken(payload)
