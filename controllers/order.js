@@ -1,4 +1,5 @@
 const Order = require('../models/order')
+const Item = require("../models/item")
 
 const create_order_post = async (req, res) => {
   try {
@@ -12,11 +13,19 @@ const create_order_post = async (req, res) => {
         user: userId, // Reference to user
         items: itemIds // Array of references to items
       })
+
+      const oldItem = await Item.findById(itemIds)
+
+      oldItem.quantity -= quantityOrder
+      
+      oldItem.numberOfSold += quantityOrder
+      await oldItem.save()
       res.status(201).send({
         status: 'Order created successfully!',
         order
       })
     }
+    res.status(400).send("Error")
 
   } catch (error) {
     console.log(error)
