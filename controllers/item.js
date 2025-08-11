@@ -3,7 +3,9 @@ const Item = require('../models/item')
 const CreateItems = async (req, res) => {
   try {
     if (res.locals.payload.role === 'admin') {
-      const item = await Item.create({ ...req.body })
+      console.log(req.file.filename)
+      req.body.image = req.file.filename
+      const item = await Item.create(req.body)
       return res.status(201).send({ status: 'Item created Successfully', item })
     }
     res.status(401).send("You don't have the privileges to create item")
