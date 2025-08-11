@@ -1,4 +1,4 @@
-const User = require("../models/user")
+const User = require('../models/user')
 const middleware = require('../middlewares')
 
 const Register = async (req, res) => {
@@ -26,7 +26,7 @@ const Register = async (req, res) => {
       const user = await User.create({
         name,
         email,
-        passwordDigest,
+        passwordDigest
       })
 
       // Sends the user as a response
@@ -81,7 +81,13 @@ const user_info_get = async (req, res) => {
     if (!user_info) {
       return res.status(404).send({ status: 'Error', msg: 'User not found' })
     }
-    res.status(200).send(user_info)
+    res.status(200).send({
+      name: user_info.name,
+      _id: user_info._id,
+      email: user_info.email,
+      image: user_info.image,
+      addresses: user_info.addresses
+    })
   } catch (error) {
     res.status(401).send({
       status: 'Error',
