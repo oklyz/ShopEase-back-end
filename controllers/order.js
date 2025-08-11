@@ -17,7 +17,6 @@ const create_order_post = async (req, res) => {
         order
       })
     }
-
   } catch (error) {
     console.log(error)
     res.status(401).send({
@@ -60,20 +59,20 @@ const get_orders_by_userId_get = async (req, res) => {
     const { userId } = req.params
 
     // Find all orders where `user` field matches `userId`
-    const orders = await Order.find({ user: userId })
-      .populate('items', 'name price')
+    let orders = await Order.find({ user: userId })
       .populate('user', 'name email')
+      .populate('items', 'name price quantityOrder')
 
     if (!orders.length) {
-      return res.status(404).json({ error: 'No orders found for this user' })
+      return res.status(404).send({ error: 'No orders found for this user' })
     }
 
-    res.status(200).json({
+    res.status(200).send({
       status: 'Success',
       orders
     })
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       status: 'Error',
       message: 'Failed to fetch orders',
       error: error.message
