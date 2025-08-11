@@ -17,7 +17,6 @@ const create_order_post = async (req, res) => {
         order
       })
     }
-
   } catch (error) {
     console.log(error)
     res.status(401).send({
