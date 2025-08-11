@@ -33,7 +33,7 @@ const GetItems = async (req, res) => {
 
 const GetOneItem = async (req, res) => {
   try {
-    const item = await Item.findById(req.params.itemId)
+    const item = await Item.findById(req.params.itemId).populate('comments')
     res.status(200).send(item)
   } catch (error) {
     console.log(error)
