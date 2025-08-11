@@ -19,10 +19,9 @@ const createAddress = async (req, res) => {
       await User.findByIdAndUpdate(address.userId, {
         $push: { addresses: address }
       })
-      res.status(201).send("Address Created!")
-    } 
-    res.status(400).send("faild to create address")
-
+      res.status(201).send('Address Created!')
+    }
+    res.status(400).send('faild to create address')
   } catch (error) {
     res.status(400).send({
       status: 'Error',
@@ -34,13 +33,14 @@ const createAddress = async (req, res) => {
 
 const UpdateAddress = async (req, res) => {
   try {
-    
     const address = await Address.findById(req.params.addressId)
     if (!address) {
       return res
         .status(404)
         .send({ status: 'Error', msg: 'Address not found!' })
     }
+    console.log(address)
+    console.log(res.locals.payload.id)
     if (address.userId !== res.locals.payload.id) {
       return res.status(401).send('Unauthorized')
     }
@@ -65,7 +65,6 @@ const UpdateAddress = async (req, res) => {
 
 const DeleteAddress = async (req, res) => {
   try {
-    
     const address = await Address.findById(req.params.addressId)
     if (!address) {
       return res

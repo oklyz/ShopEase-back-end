@@ -26,6 +26,12 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    numberOfSold: {
+      type: Number,
+      min: 0,
+      default: 0,
+      required: true
+    },
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment"
