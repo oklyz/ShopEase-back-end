@@ -18,6 +18,7 @@ router.put(
   '/update/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
+  multer.single("image"),
   iteamContorller.UpdateItem
 )
 

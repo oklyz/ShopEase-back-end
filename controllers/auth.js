@@ -14,6 +14,15 @@ const Register = async (req, res) => {
       return res
         .status(400)
         .send('A user with that email has already been registered!')
+    }
+    let strongPasswordFlag = await middleware.strongPasswordCheck(password)
+
+    if (!strongPasswordFlag) {
+      return res
+        .status(400)
+        .send(
+          'your password is weak make sure adding upper,lowercase letters numbers and special charcter and is 8 charcter'
+        )
     } else {
       // Creates a new user
       // const user = await User.create({

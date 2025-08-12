@@ -50,6 +50,7 @@ const GetOneItem = async (req, res) => {
 const UpdateItem = async (req, res) => {
   try {
     if (res.locals.payload.role === 'admin') {
+      req.body.image=req.file.filename
       const item = await Item.findByIdAndUpdate(
         req.params.itemId,
         { ...req.body },
