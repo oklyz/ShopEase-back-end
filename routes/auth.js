@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const controller = require('../controllers/auth')
 const middleware = require('../middlewares')
+const multer = require('../config/multer')
 router.post('/login', controller.Login)
 router.post('/register', controller.Register)
 
@@ -21,6 +22,7 @@ router.put(
   '/:id',
   middleware.stripToken,
   middleware.verifyToken,
+  multer.single('image'),
   controller.user_update_put
 )
 

@@ -98,6 +98,7 @@ const user_info_get = async (req, res) => {
 }
 const user_update_put = async (req, res) => {
   try {
+    req.body.image = `/images/${req.file.filename}`
     const { name, email, image, addresses, password } = req.body
     const passwordDigest = await middleware.hashPassword(password)
     const updateData = { name, email, image, addresses, passwordDigest }
