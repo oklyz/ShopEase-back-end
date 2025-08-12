@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const itemSchema = new mongoose.Schema(
   {
@@ -32,16 +32,18 @@ const itemSchema = new mongoose.Schema(
       default: 0,
       required: true
     },
-    comments: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment"
-    }]
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+      }
+    ]
   },
   {
     timestamps: true
   }
 )
 
-const Item = mongoose.model("Item", itemSchema)
+const Item = mongoose.model('Item', itemSchema)
 
 module.exports = Item
