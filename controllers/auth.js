@@ -105,8 +105,9 @@ const user_info_get = async (req, res) => {
 }
 const user_update_put = async (req, res) => {
   try {
-    const { name, email, image, addresses, password } = req.body
+    const { name, email, addresses, password } = req.body
     const passwordDigest = await middleware.hashPassword(password)
+    const image=req.file.filename
     const updateData = { name, email, image, addresses, passwordDigest }
 
     const user_update = await User.findByIdAndUpdate(
