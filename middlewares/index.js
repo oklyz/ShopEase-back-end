@@ -10,6 +10,13 @@ const hashPassword = async (password) => {
 
   return hashedPassword
 }
+const strongPasswordCheck= async (password)=>{
+  let passwordRegex=RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/)
+  if(password.match(passwordRegex)!==null){
+    return true
+  }
+  return false
+}
 
 const comparePassword = async (password, storedPassword) => {
   let PasswordMatch = await bcrypt.compare(password, storedPassword)
@@ -62,5 +69,6 @@ module.exports = {
   comparePassword,
   createToken,
   stripToken,
-  verifyToken
+  verifyToken,
+  strongPasswordCheck
 }
