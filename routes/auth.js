@@ -2,7 +2,6 @@ const router = require('express').Router()
 const multer = require('../config/multer')
 const controller = require('../controllers/auth')
 const middleware = require('../middlewares')
-const multer = require('../config/multer')
 router.post('/login', controller.Login)
 router.post('/register', controller.Register)
 
