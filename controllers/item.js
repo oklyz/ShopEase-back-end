@@ -49,7 +49,6 @@ const GetOneItem = async (req, res) => {
 
 const UpdateItem = async (req, res) => {
   try {
-    
     if (res.locals.payload.role === 'admin') {
       req.body.image=req.file.filename
       const item = await Item.findByIdAndUpdate(
@@ -72,7 +71,6 @@ const UpdateItem = async (req, res) => {
 
 const DeleteItem = async (req, res) => {
   try {
-    
     if (res.locals.payload.role === 'admin') {
       await Item.findByIdAndDelete(req.params.itemId)
       res.status(200).send('Item delete!')
