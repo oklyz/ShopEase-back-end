@@ -6,6 +6,13 @@ router.post('/login', controller.Login)
 router.post('/register', controller.Register)
 
 router.get(
+  '/countusers',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.countAllUsers
+)
+
+router.get(
   '/session',
   middleware.stripToken,
   middleware.verifyToken,
