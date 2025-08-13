@@ -14,14 +14,16 @@ const Register = async (req, res) => {
       return res
         .status(400)
         .send('A user with that email has already been registered!')
-    } 
-          let strongPasswordFlag=await middleware.strongPasswordCheck(password)
+    }
+    let strongPasswordFlag = await middleware.strongPasswordCheck(password)
 
-      if(!strongPasswordFlag){
-        return res.status(400).send("your password is weak make sure adding upper,lowercase letters numbers and special charcter and is 8 charcter")
-      }
-    
-    else {
+    if (!strongPasswordFlag) {
+      return res
+        .status(400)
+        .send(
+          'your password is weak make sure adding upper,lowercase letters numbers and special charcter and is 8 charcter'
+        )
+    } else {
       // Creates a new user
       // const user = await User.create({
       //   name,
@@ -105,9 +107,9 @@ const user_info_get = async (req, res) => {
 }
 const user_update_put = async (req, res) => {
   try {
-    const { name, email, addresses, password } = req.body
+    req.body.image = `/images/${req.file.filename}`
+    const { name, email, image, addresses, password } = req.body
     const passwordDigest = await middleware.hashPassword(password)
-    const image=req.file.filename
     const updateData = { name, email, image, addresses, passwordDigest }
 
     const user_update = await User.findByIdAndUpdate(
