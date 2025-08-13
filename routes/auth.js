@@ -6,6 +6,13 @@ router.post('/login', controller.Login)
 router.post('/register', controller.Register)
 
 router.get(
+  '/countusers',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.countAllUsers
+)
+
+router.get(
   '/session',
   middleware.stripToken,
   middleware.verifyToken,
@@ -22,7 +29,7 @@ router.put(
   '/:id',
   middleware.stripToken,
   middleware.verifyToken,
-  multer.single("image"),
+  multer.single('image'),
   controller.user_update_put
 )
 
