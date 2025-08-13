@@ -32,6 +32,10 @@ const itemSchema = new mongoose.Schema(
       default: 0,
       required: true
     },
+    costPrice: {
+      type: Number,
+      required: true
+    },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

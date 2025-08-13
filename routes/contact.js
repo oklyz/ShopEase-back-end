@@ -1,26 +1,32 @@
-const router = require("express").Router()
-const controller = require("../controllers/contact")
-const middleware = require("../middlewares")
+const router = require('express').Router()
+const controller = require('../controllers/contact')
+const middleware = require('../middlewares')
 router.post(
-  "/new",
+  '/new',
   middleware.stripToken,
   middleware.verifyToken,
   controller.createContact_post
 )
 router.get(
-  "/",
+  '/',
   middleware.stripToken,
   middleware.verifyToken,
   controller.get_all_Contacts_get
 )
+router.get(
+  '/countissues',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.countAllIssues
+)
 router.put(
-  "/:contactId",
+  '/:contactId',
   middleware.stripToken,
   middleware.verifyToken,
   controller.get_Contact_put
 )
 router.delete(
-  "/:contactId",
+  '/:contactId',
   middleware.stripToken,
   middleware.verifyToken,
   controller.get_Contact_delete

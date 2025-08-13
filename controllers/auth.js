@@ -133,6 +133,25 @@ const user_update_put = async (req, res) => {
   }
 }
 
+const countAllUsers = async (req, res) => {
+  try {
+    if (res.locals.payload.role === 'admin') {
+      const countUsers = await User.where({ role: 'customer' }).countDocuments(
+        {}
+      )
+      res.send(countUsers)
+    }
+    res.status(400).send('faild to count users')
+    
+  } catch (error) {
+    res.status(401).send({
+      status: 'Error',
+      msg: 'An error has occurred when get all contacts!',
+      error: error.message
+    })
+  }
+}
+
 const CheckSession = async (req, res) => {
   const { payload } = res.locals
   res.status(200).send(payload)
@@ -143,5 +162,6 @@ module.exports = {
   Login,
   user_info_get,
   user_update_put,
+  countAllUsers,
   CheckSession
 }
