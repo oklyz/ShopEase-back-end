@@ -111,22 +111,27 @@ const user_update_put = async (req, res) => {
     const { name, email, image, addresses, password } = req.body
     const passwordDigest = await middleware.hashPassword(password)
     const updateData = { name, email, image, addresses, passwordDigest }
+        let strongPasswordFlag = await middleware.strongPasswordCheck(password)
+        if(!strongPasswordFlag){
 
-    const user_update = await User.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      {
-        new: true,
-        runValidators: true
-      }
-    )
-
-    if (!user_update) {
-      return res.status(404).send({ status: 'Error', msg: 'User not found' })
-    }
-
-    res.status(200).send(user_update)
-  } catch (error) {
+        }
+        else{ 
+          const user_update = await User.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            {
+              new: true,
+              runValidators: true
+            }
+          )
+      
+          if (!user_update) {
+            return res.status(404).send({ status: 'Error', msg: 'User not found' })
+          }
+      
+          res.status(200).send(user_update)
+        }
+      } catch (error) {
     res
       .status(400)
       .send({ status: 'Error', msg: 'Update failed', error: error.message })
