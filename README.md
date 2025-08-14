@@ -48,7 +48,7 @@ An e-commerce website is a digital platform that enables individuals to buy good
 
 ### Entity Relationship Diagram
 
-![ERD](./public/images/App.png)
+![ERD](./public/images/ERD.png)
 
 ---
 
