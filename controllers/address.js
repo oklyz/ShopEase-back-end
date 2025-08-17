@@ -39,8 +39,6 @@ const UpdateAddress = async (req, res) => {
         .status(404)
         .send({ status: 'Error', msg: 'Address not found!' })
     }
-    console.log(address)
-    console.log(res.locals.payload.id)
     if (address.userId !== res.locals.payload.id) {
       return res.status(401).send('Unauthorized')
     }

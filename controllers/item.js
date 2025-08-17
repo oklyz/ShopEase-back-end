@@ -3,14 +3,13 @@ const Item = require('../models/item')
 const CreateItems = async (req, res) => {
   try {
     if (res.locals.payload.role === 'admin') {
-      console.log(req.file.filename)
       req.body.image = req.file.filename
       const item = await Item.create(req.body)
       return res.status(201).send({ status: 'Item created Successfully', item })
     }
     res.status(401).send("You don't have the privileges to create item")
   } catch (error) {
-    console.log(error)
+
     res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while create Item',
@@ -24,7 +23,6 @@ const GetItems = async (req, res) => {
     const items = await Item.find({})
     res.status(200).send(items)
   } catch (error) {
-    console.log(error)
     res.status(401).send({
       status: 'Error',
       msg: 'An error has occured while getting items',
@@ -38,7 +36,6 @@ const GetOneItem = async (req, res) => {
     const item = await Item.findById(req.params.itemId).populate('comments')
     res.status(200).send(item)
   } catch (error) {
-    console.log(error)
     res.status(401).send({
       status: 'Error',
       msg: 'An error has occured while getting specific item',
@@ -60,7 +57,6 @@ const UpdateItem = async (req, res) => {
     }
     res.status(401).send("You can't Update item you have to be admin")
   } catch (error) {
-    console.log(error)
     res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while Updating Item',
@@ -77,7 +73,6 @@ const DeleteItem = async (req, res) => {
     }
     res.status(401).send("You can't delete item you have to be admin")
   } catch (error) {
-    console.log(error)
     res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while Deleting Item',

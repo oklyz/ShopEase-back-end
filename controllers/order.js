@@ -27,7 +27,6 @@ const create_order_post = async (req, res) => {
     }
     res.status(400).send(`you don't have permission to order`)
   } catch (error) {
-    console.log(error)
     res.status(401).send({
       status: 'Error',
       msg: 'an Error has ocurred while creating order',
@@ -38,23 +37,25 @@ const create_order_post = async (req, res) => {
 
 const get_order_byID_post = async (req, res) => {
   try {
-    const orderInfo = await Order.findById(req.params.orderid)
-      .populate('user', 'name email')
-      .populate('items', 'name price')
-
-    if (!orderInfo) {
-      return res.status(404).send({
-        status: 'Error',
-        msg: 'Order not found'
+      if (res.locals.payload.role === "admin") {
+        const orderInfo = await Order.findById(req.params.orderid)
+        .populate('user', 'name email')
+        .populate('items', 'name price')
+  
+      if (!orderInfo) {
+        return res.status(404).send({
+          status: 'Error',
+          msg: 'Order not found'
+        })
+      }
+  
+      return res.status(200).send({
+        status: 'Order find successfully!',
+        orderInfo
       })
-    }
-
-    res.status(200).send({
-      status: 'Order find successfully!',
-      orderInfo
-    })
+      }
+      return res.status(401).send("You are not allow to access")
   } catch (error) {
-    console.log(error)
     res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while finding order',
@@ -68,18 +69,22 @@ const get_orders_by_userId_get = async (req, res) => {
     const { userId } = req.params
 
     // Find all orders where `user` field matches `userId`
-    let orders = await Order.find({ user: userId })
-      .populate('user', 'name email')
-      .populate('items', 'name price quantityOrder')
+    if (res.locals.payload.id === userId) {
 
-    if (!orders.length) {
-      return res.status(404).send({ error: 'No orders found for this user' })
+      let orders = await Order.find({ user: userId })
+        .populate('user', 'name email')
+        .populate('items', 'name price quantityOrder')
+  
+      if (!orders.length) {
+        return res.status(404).send({ error: 'No orders found for this user' })
+      }
+  
+      return res.status(200).send({
+        status: 'Success',
+        orders
+      })
     }
-
-    res.status(200).send({
-      status: 'Success',
-      orders
-    })
+    return res.status(401).send("You are not allow to access")
   } catch (error) {
     res.status(500).send({
       status: 'Error',
