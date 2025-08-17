@@ -13,7 +13,7 @@ const createComment = async (req, res) => {
     }
     res.status(400).send("Faild to create comment")
   } catch (error) {
-    console.log(error)
+
     res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while creating comment',

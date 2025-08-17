@@ -4,7 +4,6 @@ const middleware = require('../middlewares')
 const Register = async (req, res) => {
   try {
     // Extracts the necessary fields from the request body
-    // let { email, image, password, name, role } = req.body
     let { email, password, name } = req.body
     // Hashes the provided password
     let passwordDigest = await middleware.hashPassword(password)
@@ -24,14 +23,6 @@ const Register = async (req, res) => {
           'your password is weak make sure adding upper,lowercase letters numbers and special charcter and is 8 charcter'
         )
     } else {
-      // Creates a new user
-      // const user = await User.create({
-      //   name,
-      //   image,
-      //   email,
-      //   passwordDigest,
-      //   role
-      // })
       const user = await User.create({
         name,
         email,
@@ -75,7 +66,6 @@ const Login = async (req, res) => {
     }
     res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {
-    console.log(error)
     res.status(401).send({
       status: 'Error',
       msg: 'An error has occurred!',

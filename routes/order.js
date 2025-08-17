@@ -7,6 +7,6 @@ router.post(
   middleware.verifyToken,
   controller.create_order_post
 )
-router.get("/:orderid", controller.get_order_byID_post)
-router.get("/user/:userId", controller.get_orders_by_userId_get)
+router.get("/:orderid",middleware.stripToken, middleware.verifyToken, controller.get_order_byID_post)
+router.get("/user/:userId",middleware.stripToken, middleware.verifyToken, controller.get_orders_by_userId_get)
 module.exports = router
