@@ -1,12 +1,15 @@
 # ShopEase-back-end
 # Date 8/7/2025
 # By: Ali Hasan, Qassim Aldearzi, Zeshan Ahmed, Abdulla Zaid
-#### Desciption
+### Desciption
 An e-commerce website is a digital platform that enables individuals to buy goods over the internet. It provides an online storefront where customers can browse products, view detailed descriptions, compare prices, and complete purchases through secure payment gateways. E-commerce websites can serve various industries, ranging from retail and fashion to electronics and digital products, offering customers the convenience of shopping anytime and anywhere.
 
+### [Front-End](https://github.com/oklyz/ShopEase-front-end)
+
+---
 ## Deployment version
 
-[Here](#)
+[Website link](#)
 
 ## Key features:
 -  Product search and filtering
@@ -52,10 +55,9 @@ An e-commerce website is a digital platform that enables individuals to buy good
 
 ---
 
-### Component diagram
-
-![CD](./public/images/App.png)
-
 ### _Technology Stack:_
 
-- **Back-end:** [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Express](https://expressjs.com/), [bcrypt](https://www.npmjs.com/package/bcryptjs), [MongoDB](https://www.mongodb.com/docs/), 
+- **node.js**
+- **express.js**
+- **JWT Auth**
+- **MongoDB**
