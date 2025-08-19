@@ -11,9 +11,8 @@ const createComment = async (req, res) => {
       })
       res.status(201).send({ status: 'Comment created!', comment })
     }
-    res.status(400).send("Faild to create comment")
+    res.status(400).send('Faild to create comment')
   } catch (error) {
-
     res.status(400).send({
       status: 'Error',
       msg: 'an Error has ocurred while creating comment',
@@ -48,7 +47,9 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.commentId).populate("userId")
+    const comment = await Comment.findById(req.params.commentId).populate(
+      'userId'
+    )
     if (res.locals.payload.id === comment.userId.id) {
       await Comment.findByIdAndDelete(req.params.commentId)
       res.status(200).send('comment delete!')

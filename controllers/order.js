@@ -37,24 +37,24 @@ const create_order_post = async (req, res) => {
 
 const get_order_byID_post = async (req, res) => {
   try {
-      if (res.locals.payload.role === "admin") {
-        const orderInfo = await Order.findById(req.params.orderid)
+    if (res.locals.payload.role === 'admin') {
+      const orderInfo = await Order.findById(req.params.orderid)
         .populate('user', 'name email')
         .populate('items', 'name price')
-  
+
       if (!orderInfo) {
         return res.status(404).send({
           status: 'Error',
           msg: 'Order not found'
         })
       }
-  
+
       return res.status(200).send({
         status: 'Order find successfully!',
         orderInfo
       })
-      }
-      return res.status(401).send("You are not allow to access")
+    }
+    return res.status(401).send('You are not allow to access')
   } catch (error) {
     res.status(400).send({
       status: 'Error',
@@ -70,21 +70,20 @@ const get_orders_by_userId_get = async (req, res) => {
 
     // Find all orders where `user` field matches `userId`
     if (res.locals.payload.id === userId) {
-
       let orders = await Order.find({ user: userId })
         .populate('user', 'name email')
         .populate('items', 'name price quantityOrder')
-  
+
       if (!orders.length) {
         return res.status(404).send({ error: 'No orders found for this user' })
       }
-  
+
       return res.status(200).send({
         status: 'Success',
         orders
       })
     }
-    return res.status(401).send("You are not allow to access")
+    return res.status(401).send('You are not allow to access')
   } catch (error) {
     res.status(500).send({
       status: 'Error',

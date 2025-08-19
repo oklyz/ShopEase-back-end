@@ -10,9 +10,11 @@ const hashPassword = async (password) => {
 
   return hashedPassword
 }
-const strongPasswordCheck= async (password)=>{
-  let passwordRegex=RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/)
-  if(password.match(passwordRegex)!==null){
+const strongPasswordCheck = async (password) => {
+  let passwordRegex = RegExp(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+  )
+  if (password.match(passwordRegex) !== null) {
     return true
   }
   return false

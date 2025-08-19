@@ -1,12 +1,22 @@
-const router = require("express").Router()
-const controller = require("../controllers/order")
-const middleware = require("../middlewares")
+const router = require('express').Router()
+const controller = require('../controllers/order')
+const middleware = require('../middlewares')
 router.post(
-  "/",
+  '/',
   middleware.stripToken,
   middleware.verifyToken,
   controller.create_order_post
 )
-router.get("/:orderid",middleware.stripToken, middleware.verifyToken, controller.get_order_byID_post)
-router.get("/user/:userId",middleware.stripToken, middleware.verifyToken, controller.get_orders_by_userId_get)
+router.get(
+  '/:orderid',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.get_order_byID_post
+)
+router.get(
+  '/user/:userId',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.get_orders_by_userId_get
+)
 module.exports = router

@@ -1,14 +1,13 @@
 const router = require('express').Router()
 const middleware = require('../middlewares')
 const iteamContorller = require('../controllers/item')
-const multer =require("../config/multer")
+const multer = require('../config/multer')
 router.post(
   '/',
   middleware.stripToken,
   middleware.verifyToken,
   multer.single('image'),
-  iteamContorller.CreateItems, 
-
+  iteamContorller.CreateItems
 )
 
 router.get('/', iteamContorller.GetItems)
@@ -18,7 +17,7 @@ router.put(
   '/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
-  multer.single("image"),
+  multer.single('image'),
   iteamContorller.UpdateItem
 )
 

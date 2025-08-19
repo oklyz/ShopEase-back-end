@@ -9,7 +9,6 @@ const CreateItems = async (req, res) => {
     }
     res.status(401).send("You don't have the privileges to create item")
   } catch (error) {
-
     res.status(400).send({
       status: 'Error',
       msg: 'An error has occured while create Item',
@@ -47,7 +46,7 @@ const GetOneItem = async (req, res) => {
 const UpdateItem = async (req, res) => {
   try {
     if (res.locals.payload.role === 'admin') {
-      req.body.image=req.file.filename
+      req.body.image = req.file.filename
       const item = await Item.findByIdAndUpdate(
         req.params.itemId,
         { ...req.body },
