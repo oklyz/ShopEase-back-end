@@ -2,7 +2,7 @@ const router = require('express').Router()
 const controller = require('../controllers/contact')
 const middleware = require('../middlewares')
 router.post(
-  '/new',
+  '/',
   middleware.stripToken,
   middleware.verifyToken,
   controller.createContact_post

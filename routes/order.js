@@ -2,7 +2,7 @@ const router = require("express").Router()
 const controller = require("../controllers/order")
 const middleware = require("../middlewares")
 router.post(
-  "/new",
+  "/",
   middleware.stripToken,
   middleware.verifyToken,
   controller.create_order_post

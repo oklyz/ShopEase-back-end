@@ -3,21 +3,21 @@ const middleware = require('../middlewares')
 const addressController = require('../controllers/address')
 
 router.post(
-  '/new',
+  '/',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.createAddress
 )
 
 router.put(
-  '/update/:addressId',
+  '/:addressId',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.UpdateAddress
 )
 
 router.delete(
-  '/delete/:addressId',
+  '/:addressId',
   middleware.stripToken,
   middleware.verifyToken,
   addressController.DeleteAddress

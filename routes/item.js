@@ -3,7 +3,7 @@ const middleware = require('../middlewares')
 const iteamContorller = require('../controllers/item')
 const multer =require("../config/multer")
 router.post(
-  '/new',
+  '/',
   middleware.stripToken,
   middleware.verifyToken,
   multer.single('image'),
@@ -15,7 +15,7 @@ router.get('/', iteamContorller.GetItems)
 router.get('/:itemId', iteamContorller.GetOneItem)
 
 router.put(
-  '/update/:itemId',
+  '/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
   multer.single("image"),
@@ -23,7 +23,7 @@ router.put(
 )
 
 router.delete(
-  '/delete/:itemId',
+  '/:itemId',
   middleware.stripToken,
   middleware.verifyToken,
   iteamContorller.DeleteItem
